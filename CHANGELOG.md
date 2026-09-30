@@ -2,6 +2,19 @@
 
 All notable changes to MM Visual Skills are documented here.
 
+## [0.8.1] - 2026-09-30
+
+### Orange Cat style hardening
+
+- Tightened `mm-article-orange-cat` around the intended white-background editorial line-art look.
+- Added explicit visual-priority rules: visual samples first, text rules second.
+- Added hard failures for colorful infographic/card/dashboard drift.
+- Explicitly banned six-panel / nine-panel / multi-panel collage generation.
+- Locked the fixed orange-cat identity: black knit beanie, round black sunglasses, black turtleneck/black outfit.
+- Clarified color semantics and typography behavior.
+- Updated article-level QA to reference concrete style Skills rather than the retired Style Preset model.
+- Defined the intended visual asset set: `preview.png`, `example-old-vs-new.png`, `example-x402-bazaar.png`.
+
 ## [0.8.0] - 2026-09-30
 
 ### Architecture correction
@@ -14,15 +27,6 @@ All notable changes to MM Visual Skills are documented here.
 - Converted the old style registry into a registry of independent article style Skills.
 - Removed the obsolete Style Preset template and old S01 preset files.
 - Root README now reflects the collection → category router → style Skill architecture.
-
-### Current structure
-
-```text
-mm-visual-skills
-├── mm-visual
-├── article-illustration
-└── article-orange-cat
-```
 
 ## [0.7.0] - 2026-09-30
 
