@@ -2,6 +2,23 @@
 
 All notable changes to MM Visual Skills are documented here.
 
+## [0.2.0] - 2026-09-30
+
+### Added
+
+- Version-aware install/update flow.
+- Installed-version marker: `.mm-visual-skills-version`.
+- Windows update checker: `scripts/check-update.ps1`.
+- macOS/Linux update checker: `scripts/check-update.sh`.
+- Interactive update prompt.
+- Non-interactive one-click update modes.
+- Check-only mode for automation and health checks.
+
+### Changed
+
+- Install/update scripts now record the installed version after every successful sync.
+- README now documents update checking and one-click upgrades.
+
 ## [0.1.0] - 2026-09-30
 
 ### Added
