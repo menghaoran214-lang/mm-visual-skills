@@ -53,11 +53,15 @@ foreach ($Skill in $Skills) {
 
 $VersionFile = Join-Path $SourceDir "VERSION"
 $Version = if (Test-Path $VersionFile) { (Get-Content $VersionFile -Raw).Trim() } else { "unknown" }
+$InstalledVersionFile = Join-Path $TargetDir ".mm-visual-skills-version"
+Set-Content -Path $InstalledVersionFile -Value $Version -NoNewline
 
 Write-Host ""
 Write-Host "Installed/updated MM Visual Skills v$Version"
 Write-Host "Installed Skills:"
 Write-Host "  - $(Join-Path $TargetDir 'mm-visual')"
 Write-Host "  - $(Join-Path $TargetDir 'mm-article-illustration')"
+Write-Host "Version marker:"
+Write-Host "  - $InstalledVersionFile"
 Write-Host ""
 Write-Host "Restart or reload your AI/Agent Skills if it does not detect changes automatically."
