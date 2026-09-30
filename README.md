@@ -4,7 +4,7 @@
 
 小Meng的视觉 Skills 总仓库。
 
-**Current version: v0.8.0**
+**Current version: v0.8.1**
 
 ## 核心架构
 
