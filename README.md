@@ -4,7 +4,7 @@
 
 小Meng的个人视觉 Skill 总仓库：统一管理正文配图、封面、数据图、证据图与可扩展视觉风格库。
 
-**Current version: v0.6.0**
+**Current version: v0.7.0**
 
 ## 设计目标
 
@@ -58,27 +58,50 @@ mm-visual-skills/
 
 ## Chat / Codex 直接安装
 
-如果当前 AI 支持从 GitHub 安装标准 `SKILL.md` Skill，最简单的方式不是先开终端，而是直接在对话里发安装指令。
+安装逻辑固定为两层：
 
-### 1. 安装主入口
+### A. 安装整套 MM Visual Skills
+
+大多数用户直接安装整个仓库即可：
 
 ```text
-帮我安装这个 skill：
+帮我安装这个 Skills：
+https://github.com/menghaoran214-lang/mm-visual-skills
+```
+
+整套安装的语义是：
+
+```text
+mm-visual-skills
+├── mm-visual
+└── mm-article-illustration
+```
+
+也就是把仓库根目录下所有包含 `SKILL.md` 的 active Skill 一起安装。
+
+以后新增 `mm-cover`、`mm-data-visual` 等新的稳定 Skill 后，整套安装 / 更新也应该自动包含它们，不需要用户一个个补装。
+
+### B. 只安装某一个子 Skill
+
+如果用户只想要某个能力，可以直接安装对应子目录。
+
+只安装视觉总入口：
+
+```text
+帮我安装这个 Skill：
 https://github.com/menghaoran214-lang/mm-visual-skills/tree/main/mm-visual
 ```
 
-`$mm-visual` 是 MM Visual Skills 的统一入口，负责理解视觉目标并路由到最合适的下游 Skill。
-
-### 2. 安装正文配图 Skill
+只安装正文配图：
 
 ```text
-帮我安装这个 skill：
+帮我安装这个 Skill：
 https://github.com/menghaoran214-lang/mm-visual-skills/tree/main/article-illustration
 ```
 
-当前建议把这两个一起安装。
+> `mm-visual-skills` 是 Skill 集合；`mm-visual` 是集合里的总控 Skill；`mm-article-illustration` 是具体子 Skill。三者不要混为一谈。
 
-> 注意：`mm-visual` 负责路由，但不会自动下载尚未安装的下游 Skill。以后新增新的稳定视觉任务 Skill 时，也应单独安装对应目录，或使用仓库的一键安装脚本安装整套。
+对于不支持“仓库根目录 = Skill Collection”安装语义的客户端，使用下面的一键安装脚本；脚本会自动发现并安装仓库根目录下所有包含 `SKILL.md` 的 Skill。
 
 ## 1 分钟安装
 
@@ -102,12 +125,14 @@ curl -fsSL https://raw.githubusercontent.com/menghaoran214-lang/mm-visual-skills
 ~/.codex/skills
 ```
 
-安装内容只有：
+安装脚本会自动扫描仓库根目录，安装所有包含 `SKILL.md` 的 active Skill。
+
+当前包括：
 
 - `mm-visual`
 - `mm-article-illustration`
 
-不会删除用户其他 Skills。
+未来新增新的根级 Skill 后，无需修改安装脚本，也会被整套安装 / 更新自动发现。不会删除用户其他 Skills。
 
 如果不是 Codex，而是其他支持本地 Skills 的 AI，可以继续使用下方“安装与更新”里的自定义目录方式。
 
@@ -146,7 +171,8 @@ $mm-article-illustration 分析下面文章，找出最值得配图的位置，�
 1. 首次使用时 clone 本仓库；
 2. 后续再次运行时执行 `git pull --ff-only`；
 3. 把可安装 Skill 同步到你指定的 Skills 目录；
-4. 只替换本仓库管理的 `mm-visual` 和 `mm-article-illustration`，不会删除其他 Skills。
+4. 自动发现仓库根目录下所有包含 `SKILL.md` 的 Skill，并按其 `name:` 安装；
+5. 只替换本仓库管理的这些 Skill，不会删除用户其他 Skills。
 
 > 更新会覆盖这两个 Skill 目录里的本地手工修改。个人定制建议提交到你自己的 fork 或单独保存。
 
@@ -244,7 +270,7 @@ git pull --ff-only
 仓库根目录的 `VERSION` 是当前版本号：
 
 ```text
-0.6.0
+0.7.0
 ```
 
 每次正式更新同时维护：
