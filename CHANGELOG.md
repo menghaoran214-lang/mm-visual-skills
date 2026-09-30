@@ -2,6 +2,23 @@
 
 All notable changes to MM Visual Skills are documented here.
 
+## [0.5.0] - 2026-09-30
+
+### Added
+
+- Mandatory visual preview standard for every Style Preset.
+- `preview.png` as the canonical style thumbnail / visual anchor.
+- Recommended `examples/` folder with 1–2 representative application examples.
+- Style registration checklist now verifies preview/example assets.
+- Registry now distinguishes “rules complete” from “fully usable with visual examples”.
+
+### Why
+
+- Helps users distinguish styles at a glance.
+- Gives generation systems a stable visual anchor.
+- Reduces style drift.
+- Makes the public style library easier to browse and understand.
+
 ## [0.4.0] - 2026-09-30
 
 ### Added
