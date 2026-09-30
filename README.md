@@ -4,7 +4,7 @@
 
 小Meng的视觉 Skills 总仓库。
 
-**Current version: v0.8.1**
+**Current version: v0.9.0**
 
 ## 核心架构
 
@@ -13,8 +13,8 @@ mm-visual-skills
 ├── mm-visual                  # 全局总入口
 ├── article-illustration       # 正文配图分类入口
 ├── article-orange-cat         # 正文风格 Skill：橘猫机制说明书
-├── future-cover-router        # 未来：封面分类入口
-├── future-cover-style-*       # 未来：封面风格 Skills
+├── cover                      # 文章封面分类入口
+├── cover-handdrawn-knowledge  # 封面风格 Skill：手绘干货风
 └── future-data-style-*        # 未来：数据图风格 Skills
 ```
 
@@ -31,6 +31,22 @@ mm-visual-skills
 | `$mm-visual` | 全局总入口 | 在正文、封面、数据图等视觉任务之间路由 |
 | `$mm-article-illustration` | 正文配图分类入口 | 找认知锚点、图位，并选择正文风格 Skill |
 | `$mm-article-orange-cat` | 正文风格 Skill | 橘猫机制说明书 |
+| `$mm-cover` | 封面分类入口 | 提炼核心冲突并选择封面风格 Skill |
+| `$mm-cover-handdrawn-knowledge` | 封面风格 Skill | 手绘干货风文章标题封面 |
+
+## 手绘干货风 Preview
+
+![手绘干货风](./cover-handdrawn-knowledge/assets/preview.png)
+
+核心原则：
+
+> **标题封面为主，插画与信息图为辅。**
+
+> **统一的是品牌语言，不是模板。**
+
+详细规则与更多样例见：
+
+`cover-handdrawn-knowledge/`
 
 ## 安装整套
 
@@ -57,6 +73,20 @@ https://github.com/menghaoran214-lang/mm-visual-skills/tree/main/article-illustr
 ```text
 帮我安装这个 Skill：
 https://github.com/menghaoran214-lang/mm-visual-skills/tree/main/article-orange-cat
+```
+
+封面总入口：
+
+```text
+帮我安装这个 Skill：
+https://github.com/menghaoran214-lang/mm-visual-skills/tree/main/cover
+```
+
+手绘干货风封面：
+
+```text
+帮我安装这个 Skill：
+https://github.com/menghaoran214-lang/mm-visual-skills/tree/main/cover-handdrawn-knowledge
 ```
 
 ## 一键本地安装 / 更新
@@ -101,10 +131,16 @@ $mm-article-illustration 分析这篇文章，找出最值得配图的位置，�
 $mm-article-orange-cat 给这篇文章做正文配图。
 ```
 
-收藏新正文风格：
+封面自动选风格：
 
 ```text
-$mm-article-illustration 分析这张参考图。如果值得长期复用，就创建一个新的正文配图风格 Skill 并登记。
+$mm-cover 给这篇文章做封面。
+```
+
+直接用手绘干货风：
+
+```text
+$mm-cover-handdrawn-knowledge 根据这篇文章生成 X Article 横版封面。
 ```
 
 ## 风格 Skill 标准结构

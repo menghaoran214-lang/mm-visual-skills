@@ -2,6 +2,20 @@
 
 All notable changes to MM Visual Skills are documented here.
 
+## [0.9.0] - 2026-10-01
+
+### Cover architecture + Handdrawn Knowledge cover style
+
+- Added `mm-cover` as the article-cover category router.
+- Added `mm-cover-handdrawn-knowledge` as the first independent cover style Skill.
+- Formalized the “手绘干货风” visual DNA: title-first editorial cover, hand-drawn IP, one real business object, compact infographic support, and strong hierarchy.
+- Added dynamic color selection by topic instead of a fixed red/black/white or yellow/blue/black palette.
+- Added orange-cat pose, role, expression, scale, and position rotation to prevent repeated right-side static compositions.
+- Added layout rotation, anti-template rules, reference analysis, prompt template, negative rules, and QA checklist.
+- Added `assets/preview.png` plus a contrasting red-theme example as visual anchors; examples are explicitly treated as style references, not fixed templates.
+- Defaulted X / Twitter Article cover ratio to approximately 2.5:1.
+- Updated `mm-visual` routing and root README for the new cover category.
+
 ## [0.8.1] - 2026-09-30
 
 ### Orange Cat style hardening
