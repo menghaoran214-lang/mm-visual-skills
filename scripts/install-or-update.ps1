@@ -12,6 +12,17 @@ function Require-Command($Name) {
     }
 }
 
+function Get-SkillName($SkillDir) {
+    $SkillFile = Join-Path $SkillDir "SKILL.md"
+    $Head = Get-Content $SkillFile -TotalCount 40
+    foreach ($Line in $Head) {
+        if ($Line -match '^name:\s*["'']?([^"'']+)["'']?\s*$') {
+            return $Matches[1].Trim()
+        }
+    }
+    throw "Could not read skill name from: $SkillFile"
+}
+
 Require-Command "git"
 
 Write-Host "MM Visual Skills"
@@ -30,25 +41,29 @@ if (Test-Path (Join-Path $SourceDir ".git")) {
 
 New-Item -ItemType Directory -Force -Path $TargetDir | Out-Null
 
-$Skills = @(
-    @{ Source = "mm-visual"; Destination = "mm-visual" },
-    @{ Source = "article-illustration"; Destination = "mm-article-illustration" }
-)
+$SkillDirs = Get-ChildItem -Path $SourceDir -Directory | Where-Object {
+    Test-Path (Join-Path $_.FullName "SKILL.md")
+}
 
-foreach ($Skill in $Skills) {
-    $SourcePath = Join-Path $SourceDir $Skill.Source
-    $DestinationPath = Join-Path $TargetDir $Skill.Destination
+if (-not $SkillDirs -or $SkillDirs.Count -eq 0) {
+    throw "No installable Skills found in repository root."
+}
 
-    if (-not (Test-Path $SourcePath)) {
-        throw "Skill source not found: $SourcePath"
-    }
+$Installed = @()
+
+foreach ($SkillDir in $SkillDirs) {
+    $SkillName = Get-SkillName $SkillDir.FullName
+    $DestinationPath = Join-Path $TargetDir $SkillName
 
     if (Test-Path $DestinationPath) {
-        Write-Host "Replacing managed Skill: $($Skill.Destination)"
+        Write-Host "Replacing managed Skill: $SkillName"
         Remove-Item -Recurse -Force $DestinationPath
+    } else {
+        Write-Host "Installing Skill: $SkillName"
     }
 
-    Copy-Item -Recurse -Force $SourcePath $DestinationPath
+    Copy-Item -Recurse -Force $SkillDir.FullName $DestinationPath
+    $Installed += $SkillName
 }
 
 $VersionFile = Join-Path $SourceDir "VERSION"
@@ -59,9 +74,11 @@ Set-Content -Path $InstalledVersionFile -Value $Version -NoNewline
 Write-Host ""
 Write-Host "Installed/updated MM Visual Skills v$Version"
 Write-Host "Installed Skills:"
-Write-Host "  - $(Join-Path $TargetDir 'mm-visual')"
-Write-Host "  - $(Join-Path $TargetDir 'mm-article-illustration')"
+foreach ($SkillName in $Installed) {
+    Write-Host "  - $(Join-Path $TargetDir $SkillName)"
+}
 Write-Host "Version marker:"
 Write-Host "  - $InstalledVersionFile"
 Write-Host ""
+Write-Host "Future root-level directories containing SKILL.md will be installed automatically."
 Write-Host "Restart or reload your AI/Agent Skills if it does not detect changes automatically."
