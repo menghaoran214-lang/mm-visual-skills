@@ -1,0 +1,4 @@
+interface:
+  display_name: "MM 文章封面"
+  short_description: "根据文章核心冲突与题材，自动选择合适的封面视觉风格。"
+  default_prompt: "使用 $mm-cover 分析我提供的文章，提炼封面标题并选择合适的封面风格 Skill。"
