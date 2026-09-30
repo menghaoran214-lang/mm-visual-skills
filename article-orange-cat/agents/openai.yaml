@@ -1,0 +1,4 @@
+interface:
+  display_name: "MM 橘猫机制说明书"
+  short_description: "用固定橘猫操作员把抽象机制、流程、卡点和项目复盘画成白底正文说明图。"
+  default_prompt: "使用 $mm-article-orange-cat，把我给的文章或段落转成橘猫机制说明书正文配图；每张只解释一个认知任务，保持固定橘猫身份和白底线稿风格。"
