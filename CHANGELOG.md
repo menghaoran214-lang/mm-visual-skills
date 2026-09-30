@@ -2,6 +2,22 @@
 
 All notable changes to MM Visual Skills are documented here.
 
+## [0.4.0] - 2026-09-30
+
+### Added
+
+- True one-command bootstrap install/update for Windows PowerShell.
+- True one-command bootstrap install/update for macOS/Linux.
+- Bootstrap scripts download the latest installer directly from GitHub, so users do not need to clone the repository first.
+- README “1 分钟安装” section with copy-paste commands.
+
+### User experience
+
+- First run = install.
+- Running the same command again = update.
+- Default target remains `~/.codex/skills`.
+- Only `mm-visual` and `mm-article-illustration` are managed; other Skills are left untouched.
+
 ## [0.3.0] - 2026-09-30
 
 ### Added
