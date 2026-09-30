@@ -1,3 +1,4 @@
-name: "MM Article Illustration"
-description: "正文配图：找认知锚点、选视觉风格、确定图位并逐张生成，同时补充真实截图与表格建议。"
-default_prompt: "分析我提供的文章，找出真正需要可视化的认知锚点。不要平均配图，也不要把整篇文章做成总结海报。先给出机制图、精确插入位置和其他截图/表格建议；我要求生成时再逐张生成。"
+interface:
+  display_name: "MM 正文配图"
+  short_description: "从文章中找认知锚点、选择视觉风格、确定图位并生成正文配图。"
+  default_prompt: "使用 $mm-article-illustration 分析我提供的文章，先找真正值得可视化的认知锚点和精确图位，再选择 Style Preset；需要生成时逐张生成，并补充真实截图、表格或证据图建议。"
