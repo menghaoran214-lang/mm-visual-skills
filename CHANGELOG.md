@@ -2,6 +2,24 @@
 
 All notable changes to MM Visual Skills are documented here.
 
+## [0.7.0] - 2026-09-30
+
+### Changed
+
+- Clarified the collection model: `mm-visual-skills` is the whole Skill collection, `mm-visual` is the router, and each functional Skill can still be installed independently.
+- Root repository URL is now documented as the preferred whole-collection install target for clients that support Skill Collections.
+- Windows and macOS/Linux installers now auto-discover every root-level directory containing `SKILL.md`.
+- Install destination names are read from each Skill's frontmatter `name:`, so future Skills do not require hardcoded installer changes.
+- Whole-collection updates automatically pick up newly added active Skills.
+- Individual child-directory installation remains supported.
+
+### Install semantics
+
+```text
+repository root -> install all active root-level Skills
+child Skill URL  -> install only that Skill
+```
+
 ## [0.6.0] - 2026-09-30
 
 ### Changed
