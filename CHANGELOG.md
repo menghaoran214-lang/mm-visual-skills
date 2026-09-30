@@ -2,6 +2,23 @@
 
 All notable changes to MM Visual Skills are documented here.
 
+## [0.6.0] - 2026-09-30
+
+### Changed
+
+- Aligned the repository more closely with the proven CS Skills structure.
+- `mm-visual` now behaves as a portable single front door, with explicit active routes and unsupported-route handling.
+- `mm-article-illustration` now has explicit trigger language, two working modes, lazy reference loading, and clearer output contracts.
+- OpenAI agent metadata now uses the `interface.display_name / short_description / default_prompt` structure.
+- Root README now documents direct in-chat GitHub Skill installation first.
+- Added `article-illustration/README.md` with usage, install prompts, Style Registry explanation, and quick-call examples.
+
+### Compatibility
+
+- Standard `SKILL.md` remains the portable core.
+- `agents/openai.yaml` provides OpenAI/Codex-facing display metadata.
+- Existing Git/bootstrap install scripts remain available for users who prefer local installation or whole-repository updates.
+
 ## [0.5.0] - 2026-09-30
 
 ### Added
