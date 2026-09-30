@@ -4,7 +4,7 @@
 
 小Meng的个人视觉 Skill 总仓库：统一管理正文配图、封面、数据图、证据图与可扩展视觉风格库。
 
-**Current version: v0.1.0**
+**Current version: v0.2.0**
 
 ## 设计目标
 
@@ -26,7 +26,9 @@ mm-visual-skills/
 ├── CHANGELOG.md
 ├── scripts/
 │   ├── install-or-update.ps1
-│   └── install-or-update.sh
+│   ├── install-or-update.sh
+│   ├── check-update.ps1
+│   └── check-update.sh
 ├── mm-visual/
 │   ├── SKILL.md
 │   └── agents/openai.yaml
@@ -112,6 +114,53 @@ bash ./scripts/install-or-update.sh
 bash ./scripts/install-or-update.sh "/path/to/skills"
 ```
 
+
+### 检查是否有新版本
+
+Windows：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\check-update.ps1
+```
+
+macOS / Linux：
+
+```bash
+bash ./scripts/check-update.sh
+```
+
+如果发现版本不同，脚本会提示是否立即升级。
+
+#### 一键升级，不再询问
+
+Windows：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\check-update.ps1 -Yes
+```
+
+macOS / Linux：
+
+```bash
+bash ./scripts/check-update.sh ~/.codex/skills yes
+```
+
+#### 只检查，不更新
+
+Windows：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\check-update.ps1 -CheckOnly
+```
+
+macOS / Linux：
+
+```bash
+bash ./scripts/check-update.sh ~/.codex/skills check-only
+```
+
+安装脚本会在目标 Skills 目录写入 `.mm-visual-skills-version`，用于记录当前安装版本。检查脚本会把本地版本与 GitHub 最新 `VERSION` 对比。
+
 ### 已经 clone 过仓库
 
 也可以直接：
@@ -131,7 +180,7 @@ git pull --ff-only
 仓库根目录的 `VERSION` 是当前版本号：
 
 ```text
-0.1.0
+0.2.0
 ```
 
 每次正式更新同时维护：
