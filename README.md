@@ -4,7 +4,7 @@
 
 小Meng的个人视觉 Skill 总仓库：统一管理正文配图、封面、数据图、证据图与可扩展视觉风格库。
 
-**Current version: v0.3.0**
+**Current version: v0.4.0**
 
 ## 设计目标
 
@@ -27,6 +27,8 @@ mm-visual-skills/
 ├── RELEASING.md
 ├── .github/workflows/release.yml
 ├── scripts/
+│   ├── bootstrap.ps1
+│   ├── bootstrap.sh
 │   ├── install-or-update.ps1
 │   ├── install-or-update.sh
 │   ├── check-update.ps1
@@ -48,6 +50,37 @@ mm-visual-skills/
             ├── negative-rules.md
             └── qa-checklist.md
 ```
+
+## 1 分钟安装
+
+普通用户不需要先 clone 仓库。复制一条命令即可完成首次安装；以后重复执行同一条命令就是更新。
+
+### Windows PowerShell
+
+```powershell
+irm https://raw.githubusercontent.com/menghaoran214-lang/mm-visual-skills/main/scripts/bootstrap.ps1 | iex
+```
+
+### macOS / Linux
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/menghaoran214-lang/mm-visual-skills/main/scripts/bootstrap.sh | bash
+```
+
+默认安装到：
+
+```text
+~/.codex/skills
+```
+
+安装内容只有：
+
+- `mm-visual`
+- `mm-article-illustration`
+
+不会删除用户其他 Skills。
+
+如果不是 Codex，而是其他支持本地 Skills 的 AI，可以继续使用下方“安装与更新”里的自定义目录方式。
 
 ## 最简单调用
 
@@ -182,7 +215,7 @@ git pull --ff-only
 仓库根目录的 `VERSION` 是当前版本号：
 
 ```text
-0.3.0
+0.4.0
 ```
 
 每次正式更新同时维护：
