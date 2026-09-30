@@ -54,10 +54,14 @@ if [ -f "$SOURCE_DIR/VERSION" ]; then
   VERSION="$(tr -d '\r\n' < "$SOURCE_DIR/VERSION")"
 fi
 
+printf "%s" "$VERSION" > "$TARGET_DIR/.mm-visual-skills-version"
+
 echo
 echo "Installed/updated MM Visual Skills v$VERSION"
 echo "Installed Skills:"
 echo "  - $TARGET_DIR/mm-visual"
 echo "  - $TARGET_DIR/mm-article-illustration"
+echo "Version marker:"
+echo "  - $TARGET_DIR/.mm-visual-skills-version"
 echo
 echo "Restart or reload your AI/Agent Skills if it does not detect changes automatically."
