@@ -1,0 +1,3 @@
+name: "MM Visual"
+description: "小Meng视觉总控：自动选择正文配图、封面、数据视觉或风格库工作流。"
+default_prompt: "理解我的视觉目标，选择最合适的 MM Visual Skill 并直接推进；除非缺少会改变结果的关键信息，否则不要让我先选择 Skill。"
