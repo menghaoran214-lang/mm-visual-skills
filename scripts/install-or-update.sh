@@ -27,27 +27,51 @@ fi
 
 mkdir -p "$TARGET_DIR"
 
-sync_skill() {
-  local source_name="$1"
-  local destination_name="$2"
-  local source_path="$SOURCE_DIR/$source_name"
-  local destination_path="$TARGET_DIR/$destination_name"
-
-  if [ ! -d "$source_path" ]; then
-    echo "Skill source not found: $source_path" >&2
+get_skill_name() {
+  local skill_file="$1/SKILL.md"
+  local name
+  name="$(awk '
+    /^name:[[:space:]]*/ {
+      sub(/^name:[[:space:]]*/, "", $0)
+      gsub(/^["'"'"']|["'"'"']$/, "", $0)
+      print $0
+      exit
+    }
+  ' "$skill_file")"
+  if [ -z "$name" ]; then
+    echo "Could not read skill name from: $skill_file" >&2
     exit 1
   fi
-
-  if [ -e "$destination_path" ]; then
-    echo "Replacing managed Skill: $destination_name"
-    rm -rf "$destination_path"
-  fi
-
-  cp -R "$source_path" "$destination_path"
+  printf "%s" "$name"
 }
 
-sync_skill "mm-visual" "mm-visual"
-sync_skill "article-illustration" "mm-article-illustration"
+installed_count=0
+installed_names=""
+
+for skill_dir in "$SOURCE_DIR"/*; do
+  [ -d "$skill_dir" ] || continue
+  [ -f "$skill_dir/SKILL.md" ] || continue
+
+  skill_name="$(get_skill_name "$skill_dir")"
+  destination_path="$TARGET_DIR/$skill_name"
+
+  if [ -e "$destination_path" ]; then
+    echo "Replacing managed Skill: $skill_name"
+    rm -rf "$destination_path"
+  else
+    echo "Installing Skill: $skill_name"
+  fi
+
+  cp -R "$skill_dir" "$destination_path"
+  installed_count=$((installed_count + 1))
+  installed_names="$installed_names
+$skill_name"
+done
+
+if [ "$installed_count" -eq 0 ]; then
+  echo "No installable Skills found in repository root." >&2
+  exit 1
+fi
 
 VERSION="unknown"
 if [ -f "$SOURCE_DIR/VERSION" ]; then
@@ -59,9 +83,9 @@ printf "%s" "$VERSION" > "$TARGET_DIR/.mm-visual-skills-version"
 echo
 echo "Installed/updated MM Visual Skills v$VERSION"
 echo "Installed Skills:"
-echo "  - $TARGET_DIR/mm-visual"
-echo "  - $TARGET_DIR/mm-article-illustration"
+printf "%s\n" "$installed_names" | sed '/^$/d; s#^#  - '"$TARGET_DIR"'/#'
 echo "Version marker:"
 echo "  - $TARGET_DIR/.mm-visual-skills-version"
 echo
+echo "Future root-level directories containing SKILL.md will be installed automatically."
 echo "Restart or reload your AI/Agent Skills if it does not detect changes automatically."
