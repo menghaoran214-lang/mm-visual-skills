@@ -2,6 +2,23 @@
 
 All notable changes to MM Visual Skills are documented here.
 
+## [0.3.0] - 2026-09-30
+
+### Added
+
+- Automatic GitHub Release workflow.
+- Automatic annotated tags such as `v0.3.0` whenever `VERSION` changes on `main`.
+- GitHub-generated release notes.
+- `RELEASING.md` with versioning, release, and rollback rules.
+
+### Release behavior
+
+- Release content is prepared first.
+- `VERSION` is changed last.
+- The VERSION change triggers GitHub Actions.
+- The workflow creates the matching tag and GitHub Release.
+- Existing tags are never recreated.
+
 ## [0.2.0] - 2026-09-30
 
 ### Added
