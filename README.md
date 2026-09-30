@@ -4,7 +4,7 @@
 
 小Meng的个人视觉 Skill 总仓库：统一管理正文配图、封面、数据图、证据图与可扩展视觉风格库。
 
-**Current version: v0.5.0**
+**Current version: v0.6.0**
 
 ## 设计目标
 
@@ -37,6 +37,7 @@ mm-visual-skills/
 │   ├── SKILL.md
 │   └── agents/openai.yaml
 └── article-illustration/
+    ├── README.md
     ├── SKILL.md
     ├── agents/openai.yaml
     ├── qa-checklist.md
@@ -54,6 +55,30 @@ mm-visual-skills/
             ├── negative-rules.md
             └── qa-checklist.md
 ```
+
+## Chat / Codex 直接安装
+
+如果当前 AI 支持从 GitHub 安装标准 `SKILL.md` Skill，最简单的方式不是先开终端，而是直接在对话里发安装指令。
+
+### 1. 安装主入口
+
+```text
+帮我安装这个 skill：
+https://github.com/menghaoran214-lang/mm-visual-skills/tree/main/mm-visual
+```
+
+`$mm-visual` 是 MM Visual Skills 的统一入口，负责理解视觉目标并路由到最合适的下游 Skill。
+
+### 2. 安装正文配图 Skill
+
+```text
+帮我安装这个 skill：
+https://github.com/menghaoran214-lang/mm-visual-skills/tree/main/article-illustration
+```
+
+当前建议把这两个一起安装。
+
+> 注意：`mm-visual` 负责路由，但不会自动下载尚未安装的下游 Skill。以后新增新的稳定视觉任务 Skill 时，也应单独安装对应目录，或使用仓库的一键安装脚本安装整套。
 
 ## 1 分钟安装
 
@@ -219,7 +244,7 @@ git pull --ff-only
 仓库根目录的 `VERSION` 是当前版本号：
 
 ```text
-0.5.0
+0.6.0
 ```
 
 每次正式更新同时维护：
