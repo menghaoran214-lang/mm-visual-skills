@@ -1,3 +1,4 @@
-name: "MM Visual"
-description: "小Meng视觉总控：自动选择正文配图、封面、数据视觉或风格库工作流。"
-default_prompt: "理解我的视觉目标，选择最合适的 MM Visual Skill 并直接推进；除非缺少会改变结果的关键信息，否则不要让我先选择 Skill。"
+interface:
+  display_name: "mm-visual"
+  short_description: "小Meng的视觉总入口：理解目标并路由到最合适的视觉 Skill。"
+  default_prompt: "使用 $mm-visual 理解我的视觉目标，并把任务路由到最合适的 MM Visual Skill；能直接执行时就继续推进。"
