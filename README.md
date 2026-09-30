@@ -4,7 +4,7 @@
 
 小Meng的个人视觉 Skill 总仓库：统一管理正文配图、封面、数据图、证据图与可扩展视觉风格库。
 
-**Current version: v0.2.0**
+**Current version: v0.3.0**
 
 ## 设计目标
 
@@ -24,6 +24,8 @@ mm-visual-skills/
 ├── README.md
 ├── VERSION
 ├── CHANGELOG.md
+├── RELEASING.md
+├── .github/workflows/release.yml
 ├── scripts/
 │   ├── install-or-update.ps1
 │   ├── install-or-update.sh
@@ -180,7 +182,7 @@ git pull --ff-only
 仓库根目录的 `VERSION` 是当前版本号：
 
 ```text
-0.2.0
+0.3.0
 ```
 
 每次正式更新同时维护：
@@ -188,6 +190,26 @@ git pull --ff-only
 - `VERSION`
 - `CHANGELOG.md`
 - README 中的版本说明
+
+
+## GitHub Tag / Release 自动发布
+
+从 v0.3.0 开始，仓库使用 GitHub Actions 自动发布正式版本。
+
+维护流程固定为：
+
+```text
+完成 Skill / Style 修改
+→ 更新 CHANGELOG
+→ 更新 README（如需要）
+→ 最后修改 VERSION
+→ GitHub Actions 自动创建 vX.Y.Z Tag
+→ 自动创建对应 GitHub Release
+```
+
+这样每个正式版本都会被永久锁定，用户可以安装最新版，也可以回退到旧版本。
+
+详细规则见 `RELEASING.md`。
 
 ## 当前 Style Preset
 
