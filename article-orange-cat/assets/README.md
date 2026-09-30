@@ -2,18 +2,28 @@
 
 这个目录保存本 Skill 的视觉锚点。
 
-目标结构：
+正式标准结构：
 
 ```text
 assets/
 ├── preview.png
 └── examples/
-    ├── example-01.png
-    └── example-02.png
+    ├── example-old-vs-new.png
+    └── example-x402-bazaar.png
 ```
 
-- `preview.png`：主预览图，必须代表该 Skill 的标准视觉状态。
-- `examples/`：1–3 张典型任务示例。
-- 示例图用于帮助用户区分风格，并减少模型生成时的风格漂移。
+三张基准图分别代表：
 
-当前示例图片待从既有橘猫作品中正式归档。
+- `preview.png`：复杂机制 + 橘猫操作员 + 白底黑线稿 + 橙色流程箭头 + 蓝色手写批注
+- `example-old-vs-new.png`：左右对照型构图，验证“对比场景”下的风格稳定性
+- `example-x402-bazaar.png`：单机制服务交互型构图，验证“输入 → 服务 → 返回结果”场景
+
+## 生成优先级
+
+1. 视觉样本
+2. Fixed IP
+3. style-dna.md
+4. composition-patterns.md
+5. prompt-template.md
+
+视觉样本不是装饰，而是风格锚点。没有样本时只能按文字规则近似；有样本时不得自行漂成彩色信息图。
