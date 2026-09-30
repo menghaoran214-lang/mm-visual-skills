@@ -4,7 +4,7 @@
 
 小Meng的个人视觉 Skill 总仓库：统一管理正文配图、封面、数据图、证据图与可扩展视觉风格库。
 
-**Current version: v0.4.0**
+**Current version: v0.5.0**
 
 ## 设计目标
 
@@ -44,6 +44,10 @@ mm-visual-skills/
         ├── registry.md
         ├── STYLE_PRESET_TEMPLATE.md
         └── S01-orange-cat-explainer/
+            ├── preview.png
+            ├── examples/
+            │   ├── example-01.png
+            │   └── example-02.png
             ├── style-dna.md
             ├── prompt-template.md
             ├── composition-patterns.md
@@ -215,7 +219,7 @@ git pull --ff-only
 仓库根目录的 `VERSION` 是当前版本号：
 
 ```text
-0.4.0
+0.5.0
 ```
 
 每次正式更新同时维护：
@@ -243,6 +247,19 @@ git pull --ff-only
 这样每个正式版本都会被永久锁定，用户可以安装最新版，也可以回退到旧版本。
 
 详细规则见 `RELEASING.md`。
+
+## Style Preset 示例图标准
+
+从 v0.5.0 开始，每种视觉风格都必须配视觉示例，方便用户快速区分，也用于减少后续生成时的风格漂移。
+
+最低标准：
+
+- **1 张 `preview.png`：必须**
+- **1–2 张 `examples/*.png`：推荐**
+- 示例图必须代表该风格的标准状态，不选“偶然生成得很好但已经偏风格”的图
+- 新风格如果规则已经写完但还没有 preview，应标记为“规则已完成 / 示例待补”，不能标记为完全可用
+
+以后新增 S02、S03 时都按这个标准执行。
 
 ## 当前 Style Preset
 
