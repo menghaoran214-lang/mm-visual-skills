@@ -34,6 +34,20 @@ mm-visual-skills
 | `$mm-cover` | 封面分类入口 | 提炼核心冲突并选择封面风格 Skill |
 | `$mm-cover-handdrawn-knowledge` | 封面风格 Skill | 手绘干货风文章标题封面 |
 
+## 手绘干货风 Preview
+
+![手绘干货风](./cover-handdrawn-knowledge/assets/preview.png)
+
+核心原则：
+
+> **标题封面为主，插画与信息图为辅。**
+
+> **统一的是品牌语言，不是模板。**
+
+详细规则与更多样例见：
+
+`cover-handdrawn-knowledge/`
+
 ## 安装整套
 
 如果当前 AI 支持从 GitHub 仓库安装 Skill Collection，直接发：
