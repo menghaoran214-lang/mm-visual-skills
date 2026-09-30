@@ -40,7 +40,19 @@ metadata:
 
 - `references/qa-checklist.md`
 
-若未来加入 `assets/preview.png` 和 `assets/examples/`，优先把视觉样本作为风格锚点。
+### Visual anchors
+
+`assets/preview.png` 与 `assets/examples/` 已作为正式视觉锚点归档。
+
+生成前必须优先观察视觉样本的**共同观感**，再用文字规则补充边界。样本用于锁定风格 DNA，不得被当成固定模板机械复刻。尤其禁止因为样本里出现了某种颜色、人物站位或三栏结构，就在后续每张图重复使用。
+
+视觉优先级：
+
+1. `assets/preview.png`
+2. `assets/examples/`
+3. Style DNA
+4. Composition / Color / IP rotation rules
+5. Prompt Template
 
 ## Fixed Brand DNA
 
