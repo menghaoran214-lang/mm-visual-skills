@@ -4,6 +4,8 @@
 
 小Meng的个人视觉 Skill 总仓库：统一管理正文配图、封面、数据图、证据图与可扩展视觉风格库。
 
+**Current version: v0.1.0**
+
 ## 设计目标
 
 这个仓库不采用“一个视觉风格 = 一个 Skill”的方式。
@@ -20,6 +22,11 @@
 ```text
 mm-visual-skills/
 ├── README.md
+├── VERSION
+├── CHANGELOG.md
+├── scripts/
+│   ├── install-or-update.ps1
+│   └── install-or-update.sh
 ├── mm-visual/
 │   ├── SKILL.md
 │   └── agents/openai.yaml
@@ -63,6 +70,75 @@ $mm-article-illustration 分析下面文章，找出最值得配图的位置，�
 ```text
 把这张参考图分析后收进正文配图风格库。
 ```
+
+## 安装与更新
+
+### 推荐：Git 驱动安装
+
+本地 AI / Agent 用户推荐使用仓库自带脚本。脚本会：
+
+1. 首次使用时 clone 本仓库；
+2. 后续再次运行时执行 `git pull --ff-only`；
+3. 把可安装 Skill 同步到你指定的 Skills 目录；
+4. 只替换本仓库管理的 `mm-visual` 和 `mm-article-illustration`，不会删除其他 Skills。
+
+> 更新会覆盖这两个 Skill 目录里的本地手工修改。个人定制建议提交到你自己的 fork 或单独保存。
+
+#### Windows PowerShell
+
+默认目标目录为 `~/.codex/skills`：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\install-or-update.ps1
+```
+
+指定其他 AI 的 Skills 目录：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\install-or-update.ps1 -TargetDir "D:\path\to\skills"
+```
+
+#### macOS / Linux
+
+默认目标目录为 `~/.codex/skills`：
+
+```bash
+bash ./scripts/install-or-update.sh
+```
+
+指定其他 Skills 目录：
+
+```bash
+bash ./scripts/install-or-update.sh "/path/to/skills"
+```
+
+### 已经 clone 过仓库
+
+也可以直接：
+
+```bash
+git pull --ff-only
+```
+
+但如果你的 AI 是从独立 Skills 目录加载，仍建议再运行安装/更新脚本，把最新版同步进去。
+
+### 手动复制安装
+
+如果用户只是从 GitHub 下载 ZIP，然后手动复制到 AI 的 Skills 目录，**以后不会自动同步**。需要重新下载覆盖，或者改用上面的 Git 更新方式。
+
+## 版本检查
+
+仓库根目录的 `VERSION` 是当前版本号：
+
+```text
+0.1.0
+```
+
+每次正式更新同时维护：
+
+- `VERSION`
+- `CHANGELOG.md`
+- README 中的版本说明
 
 ## 当前 Style Preset
 
