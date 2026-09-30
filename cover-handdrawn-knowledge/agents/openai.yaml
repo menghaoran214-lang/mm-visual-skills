@@ -1,0 +1,4 @@
+interface:
+  display_name: "MM 手绘干货封面"
+  short_description: "为知识型长文生成强标题、手绘IP、真实业务对象与少量信息图结合的横版封面。"
+  default_prompt: "使用 $mm-cover-handdrawn-knowledge，根据我提供的文章生成一张 2.5:1 左右的手绘干货风标题封面；标题优先，配色、构图和橘猫动作按主题动态变化，避免模板化。"
