@@ -4,7 +4,7 @@
 
 小Meng的视觉 Skills 总仓库。
 
-**Current version: v0.9.0**
+**Current version: v0.10.0**
 
 ## 核心架构
 
@@ -110,6 +110,48 @@ curl -fsSL https://raw.githubusercontent.com/menghaoran214-lang/mm-visual-skills
 ```text
 ~/.codex/skills
 ```
+
+## 检查并同步更新
+
+安装后不需要手动 `git pull`。更新脚本会读取本地版本标记，与 GitHub `main` 的 `VERSION` 比较；只有版本不同才会询问是否同步全部由本仓库管理的 Skills。
+
+Windows PowerShell（交互检查，发现新版本后确认更新）：
+
+```powershell
+$script = irm https://raw.githubusercontent.com/menghaoran214-lang/mm-visual-skills/main/scripts/check-update.ps1; & ([scriptblock]::Create($script))
+```
+
+Windows PowerShell（仅检查，不修改文件）：
+
+```powershell
+$script = irm https://raw.githubusercontent.com/menghaoran214-lang/mm-visual-skills/main/scripts/check-update.ps1; & ([scriptblock]::Create($script)) -CheckOnly
+```
+
+Windows PowerShell（适合计划任务或其他自动化的无交互更新）：
+
+```powershell
+$script = irm https://raw.githubusercontent.com/menghaoran214-lang/mm-visual-skills/main/scripts/check-update.ps1; & ([scriptblock]::Create($script)) -Yes
+```
+
+macOS / Linux：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/menghaoran214-lang/mm-visual-skills/main/scripts/check-update.sh | bash
+```
+
+仅检查：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/menghaoran214-lang/mm-visual-skills/main/scripts/check-update.sh | bash -s -- "$HOME/.codex/skills" check-only
+```
+
+无交互更新：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/menghaoran214-lang/mm-visual-skills/main/scripts/check-update.sh | bash -s -- "$HOME/.codex/skills" yes
+```
+
+每次同步都会把当前仓库克隆/快进更新到 `~/.mm-visual-skills-source`，重新扫描仓库根目录的 `SKILL.md`，并更新 `~/.codex/skills/.mm-visual-skills-version`。新加入的根目录 Skill 会随下一次同步自动安装。更新完成后，如当前 AI 客户端没有立即发现新版本，请重启或重新加载 Skills。
 
 ## 使用示例
 
