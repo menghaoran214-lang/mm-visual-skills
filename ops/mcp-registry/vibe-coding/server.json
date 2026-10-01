@@ -1,0 +1,9 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.menghaoran214-lang/vibe-coding-cn",
+  "title": "Vibe Coding 中文助手",
+  "description": "Read-only Chinese Vibe Coding knowledge connector for search, docs, and repo freshness.",
+  "version": "0.6.0",
+  "websiteUrl": "https://n8n.xiaomeng.ink/webhook/plugin-page?slug=vibe-coding",
+  "remotes": [{"type":"streamable-http","url":"https://n8n.xiaomeng.ink/mcp/vibe-coding-cn"}]
+}
