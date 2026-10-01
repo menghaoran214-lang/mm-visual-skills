@@ -1,0 +1,6 @@
+# Shell entrypoints are downloaded directly from GitHub and must stay executable
+# in Bash on every platform, including a Windows checkout used through WSL.
+*.sh text eol=lf
+
+# Keep PowerShell scripts readable in native Windows editors.
+*.ps1 text eol=crlf

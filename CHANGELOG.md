@@ -2,6 +2,15 @@
 
 All notable changes to MM Visual Skills are documented here.
 
+## [0.10.0] - 2026-10-01
+
+### Reliable installed-user update flow
+
+- Made the Windows and macOS/Linux update-check scripts self-contained when launched directly from GitHub.
+- Version checks now download the current installer only after an update is confirmed (or `-Yes` / `yes` is supplied), so already-installed users do not need a local checkout or a manual `git pull`.
+- Added documented interactive, check-only, and non-interactive update commands for PowerShell and shell users.
+- Kept the existing auto-discovery behavior: each successful sync scans root-level `SKILL.md` directories and installs new Skills automatically.
+
 ## [0.9.0] - 2026-10-01
 
 ### Cover architecture + Handdrawn Knowledge cover style

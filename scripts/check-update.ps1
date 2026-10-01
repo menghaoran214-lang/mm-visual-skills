@@ -7,8 +7,8 @@ param(
 
 $ErrorActionPreference = "Stop"
 $RemoteVersionUrl = "https://raw.githubusercontent.com/menghaoran214-lang/mm-visual-skills/main/VERSION"
+$InstallerUrl = "https://raw.githubusercontent.com/menghaoran214-lang/mm-visual-skills/main/scripts/install-or-update.ps1"
 $LocalVersionFile = Join-Path $TargetDir ".mm-visual-skills-version"
-$Installer = Join-Path $PSScriptRoot "install-or-update.ps1"
 
 try {
     $RemoteVersion = (Invoke-RestMethod -Uri $RemoteVersionUrl -UseBasicParsing).Trim()
@@ -24,6 +24,10 @@ $LocalVersion = if (Test-Path $LocalVersionFile) {
 
 Write-Host "Installed version: $LocalVersion"
 Write-Host "Latest version:    $RemoteVersion"
+
+if ([string]::IsNullOrWhiteSpace($RemoteVersion)) {
+    throw "GitHub returned an empty VERSION value."
+}
 
 if ($LocalVersion -eq $RemoteVersion) {
     Write-Host "MM Visual Skills is up to date."
@@ -51,4 +55,24 @@ if (-not $DoUpdate) {
     exit 0
 }
 
-& $Installer -TargetDir $TargetDir -SourceDir $SourceDir
+$TempFile = $null
+try {
+    # This is self-contained when the checker is launched directly from GitHub.
+    $TempFile = Join-Path ([System.IO.Path]::GetTempPath()) ("mm-visual-install-" + [guid]::NewGuid().ToString() + ".ps1")
+    Write-Host "Downloading the current MM Visual Skills installer..."
+    Invoke-WebRequest -Uri $InstallerUrl -OutFile $TempFile -UseBasicParsing
+
+    if (-not (Test-Path $TempFile) -or (Get-Item $TempFile).Length -eq 0) {
+        throw "Installer download failed."
+    }
+
+    & powershell -NoProfile -ExecutionPolicy Bypass -File $TempFile -TargetDir $TargetDir -SourceDir $SourceDir
+    if ($LASTEXITCODE -ne 0) {
+        throw "Installer exited with code $LASTEXITCODE"
+    }
+}
+finally {
+    if ($TempFile -and (Test-Path $TempFile)) {
+        Remove-Item -Force $TempFile -ErrorAction SilentlyContinue
+    }
+}
