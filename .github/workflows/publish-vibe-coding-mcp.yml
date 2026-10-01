@@ -1,4 +1,5 @@
 name: Publish Vibe Coding MCP Registry
+# Managed by ChatGPT for the Vibe Coding remote MCP listing.
 
 on:
   push:
