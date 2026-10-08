@@ -21,6 +21,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Test visual reference validator
+        run: python3 -m unittest discover -s article-orange-cat/scripts -p "test_*.py" -v
+
+      - name: Block release when Orange Cat assets are invalid
+        run: python3 article-orange-cat/scripts/validate_assets.py
+
       - name: Read and validate version
         id: version
         shell: bash

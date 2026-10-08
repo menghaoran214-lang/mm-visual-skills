@@ -1,0 +1,30 @@
+name: Validate Visual Assets
+
+on:
+  push:
+    paths:
+      - "article-orange-cat/assets/**"
+      - "article-orange-cat/scripts/**"
+      - "article-orange-cat/SKILL.md"
+      - ".github/workflows/validate-visual-assets.yml"
+  pull_request:
+    paths:
+      - "article-orange-cat/assets/**"
+      - "article-orange-cat/scripts/**"
+      - "article-orange-cat/SKILL.md"
+      - ".github/workflows/validate-visual-assets.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  asset-integrity:
+    name: Orange Cat PNG integrity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validator regression tests
+        run: python3 -m unittest discover -s article-orange-cat/scripts -p "test_*.py" -v
+      - name: Verify all three reference PNGs
+        run: python3 article-orange-cat/scripts/validate_assets.py
