@@ -2,6 +2,13 @@
 
 All notable changes to MM Visual Skills are documented here.
 
+## [0.10.3] - 2026-10-08
+
+- Verified Canva original-reference MEDIA import through `upload_asset_from_url` and `generate_image(imageReferences)` generation path.
+- Added `reference-provider.md` with actual image-input contract and independent visual QA.
+- Added `semantic-guard.md` to prevent category-level misinterpretations and invented realized earnings.
+- Tightened prompt, QA and article-level routing.
+
 ## [0.10.2] - 2026-10-08
 
 ### Restore original Orange Cat reference images

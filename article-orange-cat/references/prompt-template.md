@@ -13,6 +13,10 @@
 7. 极少量中文标注
 8. 负向约束
 
+## 语义准确性前置
+
+在固定 IP 与风格说明之前，先明确原文的主张、保留对象、筛选条件、两条禁画推论及收益状态。不能把筛选单个不可变现项目画成淘汰 AI/Crypto 行业，也不能把未来收益画成既成收入。参考图应使用 `reference-provider.md` 中的真实图像输入，而非纯文字。
+
 ## Mother prompt
 
 Create an editorial mechanism-explainer illustration on a pure white or warm-white background with generous negative space.
