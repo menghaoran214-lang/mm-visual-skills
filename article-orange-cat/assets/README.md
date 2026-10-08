@@ -1,29 +1,39 @@
-# Visual Assets
+# Visual Assets — 参考图状态与恢复方法
 
-这个目录保存本 Skill 的视觉锚点。
+## 当前状态：阻断（2026-10-08 核查）
 
-正式标准结构：
+仓库目前保留三张原始文件路径：
 
-```text
-assets/
-├── preview.png
-└── examples/
-    ├── example-old-vs-new.png
-    └── example-x402-bazaar.png
-```
+- assets/preview.png
+- assets/examples/example-old-vs-new.png
+- assets/examples/example-x402-bazaar.png
 
-三张基准图分别代表：
+它们的文件扩展名是 PNG，但 GitHub 返回的原始内容 **均不以 PNG 固定签名 89 50 4E 47 0D 0A 1A 0A 开头**；无法作为参考图被可靠解析。文件名/存在性≠可用样例。其他风格 Skill 的样例经相同方式读取具有正常 PNG 签名。
 
-- `preview.png`：复杂机制 + 橘猫操作员 + 白底黑线稿 + 橙色流程箭头 + 蓝色手写批注
-- `example-old-vs-new.png`：左右对照型构图，验证“对比场景”下的风格稳定性
-- `example-x402-bazaar.png`：单机制服务交互型构图，验证“输入 → 服务 → 返回结果”场景
+已检查相关 Git 历史：这批素材仅有一次加入记录，尚未发现可直接恢复的更早版本。
 
-## 生成优先级
+## 不允许的行为
 
-1. 视觉样本
-2. Fixed IP
-3. style-dna.md
-4. composition-patterns.md
-5. prompt-template.md
+- 不检查素材就继续生成；
+- 仅凭文字规则、链接、Base64 响应声称“看过参考图”；
+- 把随机像素、简易 SVG、别的风格图或临时模型产物覆盖成用户已确认的视觉母版；
+- 在未恢复原始参考图前把本 Skill 标记为“风格复现已修好”。
 
-视觉样本不是装饰，而是风格锚点。没有样本时只能按文字规则近似；有样本时不得自行漂成彩色信息图。
+## 恢复步骤
+
+1. 找回原先经过用户确认的三张图片（或用户重新确认的替代正式样图）。
+2. 将有效 PNG 放回上述完全相同的路径；原文件可另行备份，避免历史丢失。
+3. 从仓库根目录运行 python3 article-orange-cat/scripts/validate_assets.py，要求三项 PASS。
+4. 实际在视觉工具中打开全部参考图；确认内容不只满足格式、还确为用户认可的橘猫线稿母版。
+5. 运行一次真正带参考图输入的单张生成测试；对照 references/qa-checklist.md 检查。
+6. 完成后更新本状态说明，解除阻断并发布版本。
+
+在完成这些步骤之前，应将 Skill 状态明确标记为“参考样图修复待完成”。
+
+## 视觉预期
+
+- preview.png：复杂机制中的橘猫操作员、白底黑线稿、橙色流程箭头、蓝色批注；
+- example-old-vs-new.png：左右对照构图；
+- example-x402-bazaar.png：单机制服务交互构图。
+
+这些是文字描述，**不能替代三张真正有效的原始图像**。

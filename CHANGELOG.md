@@ -2,6 +2,16 @@
 
 All notable changes to MM Visual Skills are documented here.
 
+## [0.10.1] - 2026-10-08
+
+### Orange Cat reference preflight (fail-closed)
+
+- Identified three non-decodable PNG files in the Orange Cat visual reference assets; retained their original paths and explicitly marked reference-based generation as blocked pending restoration of approved originals.
+- Added a Python stdlib PNG integrity validator with offline regression tests (valid, fake, missing, corrupt CRC).
+- Made actual asset decoding, visual inspection, passing the original images into the generation tool, and first-image style QA mandatory before any Orange Cat image generation.
+- Disallowed silent text-only generation, unverified SVG substitute illustrations, and claiming reference fidelity when visual inputs cannot be read.
+- Propagated the fail-closed rule to the upstream article illustration router and QA.
+
 ## [0.10.0] - 2026-10-01
 
 ### Reliable installed-user update flow

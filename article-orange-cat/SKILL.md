@@ -18,16 +18,29 @@ metadata:
 
 它既定义“怎么画”，也负责在这个风格内完成生成与验收。上游 `$mm-article-illustration` 负责文章级图位与风格路由；用户直接点名本 Skill 时，可直接执行。
 
+## 强制视觉素材预检（不可跳过）
+
+本 Skill 属于 **参考图驱动型风格**。生成之前必须执行以下门禁，并阅读 references/asset-loading.md：
+
+1. **取到真实图片字节**：读取 assets/preview.png、assets/examples/example-old-vs-new.png、assets/examples/example-x402-bazaar.png。仅看到文件名、链接、Skill 文字或目录清单不算读取成功。
+2. **先验文件完整性**：若可执行 Python，运行 python3 article-orange-cat/scripts/validate_assets.py（或在 Skill 根目录运行 python3 scripts/validate_assets.py）；全部 PASS 才继续。无法运行时，也必须借助可用解码器逐张验证 PNG 能被打开，不得跳过。
+3. **真正看见参考图**：把验证通过的真实图像提供给当前视觉模型/生图工具，亲自检查橘猫 IP、线条和留白；GitHub URL、README、文字描述或工具返回的 base64 字符串本身都不能代替视觉输入。
+4. **确保生成工具可使用样图**：实际传入 reference image / image edit / image-to-image 等支持的图像输入；若当前工具不能接受或确认引用样图，只能说明限制，不能宣称已经按参考图精准复刻。
+5. **失败立即阻断**：任意参考图缺失、格式损坏、不能查看，或工具不支持传入参考图片时，停止生图并报告具体文件与修复建议。不得悄悄降级为纯文字绘图、生成普通漫画、手绘 SVG、借用封面 Skill 样例或编造“已按母版”。
+
+**已知问题（2026-10-08）：** 当前仓库上述三张 PNG 的文件头均非有效 PNG。未修复原始参考素材前，不得继续声称本 Skill 可以可靠地复现已定稿样式；详见 assets/README.md。预检只能确认文件格式，不能代替对视觉内容的人工/模型验收。
+
 ## 必读参考
 
-生成或编辑前按需读取：
+生成或编辑前必须读取：
 
+- `references/asset-loading.md`（预检与故障处理）
 - `references/style-dna.md`
 - `references/composition-patterns.md`
 - `references/prompt-template.md`
 - `references/negative-rules.md`
 - 交付前读取 `references/qa-checklist.md`
-- 若 `assets/preview.png` 与 `assets/examples/` 已存在，**必须优先把它们作为视觉锚点**；文字规则只用于补充，不得自行重新发明画风
+- **必须先真实打开并审查参考图**，把可用的原图作为生成的视觉输入；即便文件存在，只要无法解码/无法给生成模型看到，也视作不合格，禁止生成
 
 ## 视觉优先级
 
@@ -74,12 +87,12 @@ metadata:
 
 1. 接收上游 shot list 或用户指定的文章段落。
 2. 把当前唯一认知任务提炼成一句话。
-3. 先读取 visual assets（若已存在），再读取参考规则。
+3. 执行强制视觉素材预检，成功解码、实际看见、并确认生图工具可接收参考图片后，才允许继续；否则停止生成。
 4. 从构图模式中选择最适合的一种，但不要机械套旧图。
 5. 设计橘猫的主动动作和 2–3 个主要道具。
-6. 使用 prompt template 组织生成提示。
+6. 将真实参考图片作为视觉输入，并用 prompt template 补充当前认知任务、道具和动作；不要用纯文字取代视觉输入。
 7. 每个认知锚点独立生成，不拼图。
-8. 按 QA Checklist 验收；出现彩色信息图、卡片海报、复杂背景等漂移时直接判失败并重做。
+8. 先只生成第一张作为风格探针，与原始参考图逐项对照验收；不合格最多定向重试一次，仍不合格则停止。通过后再逐张生成并逐张验收；彩色信息图、卡片海报、复杂背景等漂移均视为失败。
 9. 真实截图能更好证明的内容，不用插画伪装成证据。
 
 ## 输出
