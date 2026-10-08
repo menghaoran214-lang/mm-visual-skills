@@ -1,39 +1,34 @@
-# Visual Assets — 参考图状态与恢复方法
+# Visual Assets — 橘猫正文说明图原始参考样本
 
-## 当前状态：阻断（2026-10-08 核查）
+## ✅ 2026-10-08 已恢复并归档
 
-仓库目前保留三张原始文件路径：
+从原先已安装的 MM Visual Skills 插件归档恢复三张原始 PNG（非重新生成、非风格近似替代），并写入 GitHub 同名路径。浏览器环境已实际成功解码、打开，内容符合橘猫固定 IP 与白底黑线稿风格。
 
-- assets/preview.png
-- assets/examples/example-old-vs-new.png
-- assets/examples/example-x402-bazaar.png
+| 参考图 | 尺寸 | 字节数 | SHA-256 |
+| --- | --- | ---: | --- |
+| `assets/preview.png` | 640×360 | 91,577 | `6ebfd1af04d21678bbfbd4df50b2068d5c9b95a920c1048f5b99d20e223fecf4` |
+| `assets/examples/example-old-vs-new.png` | 640×480 | 127,102 | `dc1b6a0de0e3ac07020cca52eb169e26656badfa9aab1ec9df77313e3353d5cc` |
+| `assets/examples/example-x402-bazaar.png` | 640×360 | 94,516 | `9636e0b03e2770addbea3c64284c9ba9eaf5f1307970907c9f8bd88efd62d2b7` |
 
-它们的文件扩展名是 PNG，但 GitHub 返回的原始内容 **均不以 PNG 固定签名 89 50 4E 47 0D 0A 1A 0A 开头**；无法作为参考图被可靠解析。文件名/存在性≠可用样例。其他风格 Skill 的样例经相同方式读取具有正常 PNG 签名。
+## 风格职责
 
-已检查相关 Git 历史：这批素材仅有一次加入记录，尚未发现可直接恢复的更早版本。
+- `preview.png`：猫在笔记本电脑前操作机制图，白底黑线稿、橙色流程箭头、蓝色口语批注
+- `example-old-vs-new.png`：猫在旧思路与新思路间参与对照说明
+- `example-x402-bazaar.png`：猫在 x402 Bazaar 小亭旁解释输入、服务和结果流向
 
-## 不允许的行为
+固定橘猫：橘色猫、黑针织帽、圆黑墨镜、黑色高领；不是写实漫画角色。每张图独立解释一个机制。
 
-- 不检查素材就继续生成；
-- 仅凭文字规则、链接、Base64 响应声称“看过参考图”；
-- 把随机像素、简易 SVG、别的风格图或临时模型产物覆盖成用户已确认的视觉母版；
-- 在未恢复原始参考图前把本 Skill 标记为“风格复现已修好”。
+## 强制校验
 
-## 恢复步骤
+在仓库根执行：
 
-1. 找回原先经过用户确认的三张图片（或用户重新确认的替代正式样图）。
-2. 将有效 PNG 放回上述完全相同的路径；原文件可另行备份，避免历史丢失。
-3. 从仓库根目录运行 python3 article-orange-cat/scripts/validate_assets.py，要求三项 PASS。
-4. 实际在视觉工具中打开全部参考图；确认内容不只满足格式、还确为用户认可的橘猫线稿母版。
-5. 运行一次真正带参考图输入的单张生成测试；对照 references/qa-checklist.md 检查。
-6. 完成后更新本状态说明，解除阻断并发布版本。
+```bash
+python3 article-orange-cat/scripts/validate_assets.py
+python3 -m unittest discover -s article-orange-cat/scripts -p 'test_*.py' -v
+```
 
-在完成这些步骤之前，应将 Skill 状态明确标记为“参考样图修复待完成”。
+该校验要求有效 PNG 数据结构与冻结 SHA-256 同时通过；GitHub Actions 在素材变更时自动运行，并阻止带损坏素材的新版本发布。
 
-## 视觉预期
+**校验限制**：PNG 合法和哈希匹配只代表母版文件没有被替换或损坏。生图时仍须实际向生图模型传入真实参考图，并逐张进行视觉 QA（参见 `references/asset-loading.md`）。
 
-- preview.png：复杂机制中的橘猫操作员、白底黑线稿、橙色流程箭头、蓝色批注；
-- example-old-vs-new.png：左右对照构图；
-- example-x402-bazaar.png：单机制服务交互构图。
-
-这些是文字描述，**不能替代三张真正有效的原始图像**。
+不允许用其它图片、SVG、纯文字生图替代这些原始视觉母版。若需要正式更换母版，先由用户确认新图，再同步更新 SHA-256 与示例说明。

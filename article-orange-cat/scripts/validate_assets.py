@@ -8,6 +8,7 @@ image. An image model must separately receive/view the actual verified images.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import struct
@@ -20,6 +21,13 @@ REFERENCES = (
     "assets/examples/example-old-vs-new.png",
     "assets/examples/example-x402-bazaar.png",
 )
+# Frozen master-reference hashes from the authenticated, original plugin asset archive.
+# A valid but substituted PNG must NOT silently pass style reference preflight.
+EXPECTED_SHA256 = {
+    "assets/preview.png": "6ebfd1af04d21678bbfbd4df50b2068d5c9b95a920c1048f5b99d20e223fecf4",
+    "assets/examples/example-old-vs-new.png": "dc1b6a0de0e3ac07020cca52eb169e26656badfa9aab1ec9df77313e3353d5cc",
+    "assets/examples/example-x402-bazaar.png": "9636e0b03e2770addbea3c64284c9ba9eaf5f1307970907c9f8bd88efd62d2b7"
+}
 MAX_BYTES = 25 * 1024 * 1024
 
 
@@ -27,7 +35,7 @@ class InvalidReference(ValueError):
     """An image is absent, truncated, mislabeled, or corrupt."""
 
 
-def validate_png(path: Path) -> tuple[int, int]:
+def validate_png(path: Path, expected_sha256: str | None = None) -> tuple[int, int]:
     if not path.is_file():
         raise InvalidReference("missing file")
     size = path.stat().st_size
@@ -36,6 +44,8 @@ def validate_png(path: Path) -> tuple[int, int]:
     data = path.read_bytes()
     if not data.startswith(PNG_SIGNATURE):
         raise InvalidReference("invalid PNG signature (not a PNG file)")
+    if expected_sha256 is not None and hashlib.sha256(data).hexdigest() != expected_sha256:
+        raise InvalidReference("PNG content differs from frozen master reference (SHA-256 mismatch)")
     offset = len(PNG_SIGNATURE)
     seen_ihdr = False
     seen_iend = False
@@ -93,7 +103,7 @@ def main(argv: list[str] | None = None) -> int:
     results = []
     for name in REFERENCES:
         try:
-            width, height = validate_png(args.root / name)
+            width, height = validate_png(args.root / name, EXPECTED_SHA256[name])
             results.append({"asset": name, "ok": True, "width": width, "height": height})
         except (InvalidReference, OSError) as exc:
             results.append({"asset": name, "ok": False, "error": str(exc)})
@@ -107,7 +117,7 @@ def main(argv: list[str] | None = None) -> int:
     if not all(x["ok"] for x in results):
         print("BLOCKED: visual references are unusable. Do not generate substitute images.", file=sys.stderr)
         return 2
-    print("PASS: reference files decode; actual visual viewing and model input are still required.", file=sys.stderr)
+    print("PASS: reference files decode AND SHA-256 matches frozen originals; actual visual viewing and model input are still required.", file=sys.stderr)
     return 0
 
 

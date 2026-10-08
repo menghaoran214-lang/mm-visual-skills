@@ -4,7 +4,7 @@
 
 小Meng的视觉 Skills 总仓库。
 
-**Current version: v0.10.1**
+**Current version: v0.10.2**
 
 ## 核心架构
 
@@ -50,7 +50,7 @@ mm-visual-skills
 
 ## 橘猫正文风格当前状态
 
-2026-10-08 已发现 article-orange-cat 的三张 PNG 视觉参考文件不可解码。新增强制预检与阻断流程：必须先恢复用户认可的原始 PNG、实际传入生成工具，再运行橘猫风格生成。具体见 article-orange-cat/assets/README.md。**当前不能宣称视觉参考已恢复。**
+2026-10-08 三张原始 PNG 已从原安装插件归档完整找回，并写回 GitHub 同名路径。当前使用 PNG 完整性 + 固定 SHA-256 校验锁定母版；生图时必须实际传入参考图并逐张执行风格 QA，不能仅凭文件已恢复声称生成效果通过。详见 article-orange-cat/assets/README.md。
 
 ## 安装整套
 

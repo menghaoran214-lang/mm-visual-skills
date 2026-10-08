@@ -1,4 +1,5 @@
 """Offline regression tests for the visual reference validator."""
+import hashlib
 import struct
 import tempfile
 import unittest
@@ -26,6 +27,20 @@ class ReferenceTests(unittest.TestCase):
             p = Path(d, "preview.png")
             p.write_bytes(tiny_png())
             self.assertEqual(validate_png(p), (1, 1))
+
+    def test_matching_hash_passes(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d, "preview.png")
+            data = tiny_png()
+            p.write_bytes(data)
+            self.assertEqual(validate_png(p, hashlib.sha256(data).hexdigest()), (1, 1))
+
+    def test_substituted_valid_png_is_rejected(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d, "preview.png")
+            p.write_bytes(tiny_png())
+            with self.assertRaisesRegex(InvalidReference, "SHA-256 mismatch"):
+                validate_png(p, "0" * 64)
 
     def test_random_bytes_with_png_extension_are_rejected(self):
         with tempfile.TemporaryDirectory() as d:

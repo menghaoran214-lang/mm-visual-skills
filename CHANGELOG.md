@@ -2,6 +2,15 @@
 
 All notable changes to MM Visual Skills are documented here.
 
+## [0.10.2] - 2026-10-08
+
+### Restore original Orange Cat reference images
+
+- Recovered and committed the three original approved PNGs from the existing installed-plugin archive (no regenerated substitutes): preview 91,577 bytes, old-vs-new 127,102 bytes, x402 Bazaar 94,516 bytes.
+- Browser-based checks passed PNG decoding, chunk CRCs, visual content review (fixed orange-cat IP, thin black lines, white background, orange/blue annotations), and source SHA-256 recording.
+- Added immutable reference SHA-256 checks to the PNG validator and regression tests so an unrelated valid PNG cannot silently replace a visual master.
+- Updated documentation and style registry to reflect restored assets; actual image-generation reference injection and first-image QA remain runtime gates.
+
 ## [0.10.1] - 2026-10-08
 
 ### Orange Cat reference preflight (fail-closed)

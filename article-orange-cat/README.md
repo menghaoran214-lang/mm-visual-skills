@@ -44,11 +44,11 @@ $mm-article-orange-cat 给下面这篇文章做正文配图。每张只解释一
 - 普通可爱卡通猫
 - 3D / 写实 / 电影感
 
-## 参考图可用性提示（2026-10-08）
+## 参考图恢复状态（2026-10-08）
 
-当前三张 PNG 参考文件存在，但文件内容损坏，无法作为有效 PNG 解码。**在用户认可的原始图片恢复之前，本 Skill 的参考图驱动生图功能处于阻断状态**；不允许仅凭文字规则生成并冒称风格一致。
+✅ 三张原始视觉样本已从原安装插件归档恢复到 GitHub，并通过 PNG 完整性、CRC、实际打开及视觉对照检查；执行 `python3 scripts/validate_assets.py` 同时检查固定 SHA-256，防止误用其它合法 PNG。
 
-执行 `python3 scripts/validate_assets.py` 做技术预检；恢复方法见 `assets/README.md` 和 `references/asset-loading.md`。
+**仍需逐次验收生图**：必须真正向生成模型传入参考图片并执行首张探针 QA；无法提供图片输入时应停止而不是回退成纯文字或临时 SVG。细节见 `assets/README.md` 和 `references/asset-loading.md`。
 
 ## Visual Assets
 

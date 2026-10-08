@@ -23,12 +23,12 @@ metadata:
 本 Skill 属于 **参考图驱动型风格**。生成之前必须执行以下门禁，并阅读 references/asset-loading.md：
 
 1. **取到真实图片字节**：读取 assets/preview.png、assets/examples/example-old-vs-new.png、assets/examples/example-x402-bazaar.png。仅看到文件名、链接、Skill 文字或目录清单不算读取成功。
-2. **先验文件完整性**：若可执行 Python，运行 python3 article-orange-cat/scripts/validate_assets.py（或在 Skill 根目录运行 python3 scripts/validate_assets.py）；全部 PASS 才继续。无法运行时，也必须借助可用解码器逐张验证 PNG 能被打开，不得跳过。
+2. **先验文件完整性**：若可执行 Python，运行 python3 article-orange-cat/scripts/validate_assets.py（或在 Skill 根目录运行 python3 scripts/validate_assets.py）；全部 PASS（含 SHA-256）才继续。无法运行时，也必须借助可用解码器逐张验证 PNG 能被打开，不得跳过。
 3. **真正看见参考图**：把验证通过的真实图像提供给当前视觉模型/生图工具，亲自检查橘猫 IP、线条和留白；GitHub URL、README、文字描述或工具返回的 base64 字符串本身都不能代替视觉输入。
 4. **确保生成工具可使用样图**：实际传入 reference image / image edit / image-to-image 等支持的图像输入；若当前工具不能接受或确认引用样图，只能说明限制，不能宣称已经按参考图精准复刻。
 5. **失败立即阻断**：任意参考图缺失、格式损坏、不能查看，或工具不支持传入参考图片时，停止生图并报告具体文件与修复建议。不得悄悄降级为纯文字绘图、生成普通漫画、手绘 SVG、借用封面 Skill 样例或编造“已按母版”。
 
-**已知问题（2026-10-08）：** 当前仓库上述三张 PNG 的文件头均非有效 PNG。未修复原始参考素材前，不得继续声称本 Skill 可以可靠地复现已定稿样式；详见 assets/README.md。预检只能确认文件格式，不能代替对视觉内容的人工/模型验收。
+**恢复状态（2026-10-08）：** 3 张原始参考 PNG 已从原先安装的插件归档恢复到 GitHub；预检同时校验 PNG 结构与固定 SHA-256 防止错图替换。此步骤不等于生图完成：每次仍须实际看到母版、将其作为图像输入传入生成工具，并对首张风格探针进行对照验收。详见 assets/README.md。
 
 ## 必读参考
 
