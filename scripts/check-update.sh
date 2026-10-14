@@ -3,6 +3,7 @@ set -euo pipefail
 
 TARGET_DIR="${1:-$HOME/.codex/skills}"
 MODE="${2:-prompt}"
+SOURCE_DIR="${MM_VISUAL_SOURCE_DIR:-$HOME/.mm-visual-skills-source}"
 REMOTE_VERSION_URL="https://raw.githubusercontent.com/menghaoran214-lang/mm-visual-skills/main/VERSION"
 INSTALLER_URL="https://raw.githubusercontent.com/menghaoran214-lang/mm-visual-skills/main/scripts/install-or-update.sh"
 LOCAL_VERSION_FILE="$TARGET_DIR/.mm-visual-skills-version"
