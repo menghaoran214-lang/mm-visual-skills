@@ -259,10 +259,6 @@ style-skill/
 
 详见 `RELEASING.md`。
 
-## 仓库边界
-
-仓库中暂存的 [Vibe Coding MCP registry](./.mcp-registry/vibe-coding-cn/server.json) 和发布 workflow 属于另一个项目，不属于任何可安装视觉 Skill。因其仍关联独立发布流程，本次不直接删除；待目标仓库与发布流程迁移完成后再清理，避免中断现有服务。
-
 ## Public repository 注意
 
 不要提交 API Key、账号密码、未打码私人截图或其他敏感信息。
