@@ -14,6 +14,13 @@ metadata:
 
 # MM Cover · Handdrawn Knowledge
 
+## 快速用法
+
+1. 直接说：`$mm-cover-handdrawn-knowledge 给这篇文章做横版封面`。
+2. 提炼主标题、一个业务对象和橘猫的实际动作；按平台指定画幅。
+3. 生成后按标题优先、IP 一致性、构图与信息密度逐项验收；不能只复刻旧图的站位与配色。
+
+
 风格名：**手绘干货风**
 
 ## Core Principle
