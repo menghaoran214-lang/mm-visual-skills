@@ -1,0 +1,36 @@
+name: Test Skill installers
+
+on:
+  push:
+    paths:
+      - "scripts/**"
+      - ".github/workflows/test-installers.yml"
+  pull_request:
+    paths:
+      - "scripts/**"
+      - ".github/workflows/test-installers.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  shell-install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Installer syntax
+        run: |
+          bash -n scripts/install-or-update.sh
+          bash -n scripts/check-update.sh
+          bash -n scripts/tests/test_install.sh
+      - name: Integration tests
+        run: bash scripts/tests/test_install.sh
+
+  powershell-install:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Integration tests
+        shell: pwsh
+        run: ./scripts/tests/test_install.ps1
