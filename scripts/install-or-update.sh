@@ -1,91 +1,96 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
 TARGET_DIR="${1:-$HOME/.codex/skills}"
+MODE="${2:-install}"
 SOURCE_DIR="${MM_VISUAL_SOURCE_DIR:-$HOME/.mm-visual-skills-source}"
 REPO_URL="https://github.com/menghaoran214-lang/mm-visual-skills.git"
+MARKER=".mm-visual-skills-managed"
+VERSION_MARKER=".mm-visual-skills-version"
 
-command -v git >/dev/null 2>&1 || {
-  echo "Required command not found: git" >&2
-  exit 1
-}
-
-echo "MM Visual Skills"
-echo "Source: $SOURCE_DIR"
-echo "Target: $TARGET_DIR"
-
-if [ -d "$SOURCE_DIR/.git" ]; then
-  echo "Updating source repository..."
+[[ "$MODE" == install || "$MODE" == --dry-run ]] || { echo "Usage: bash install-or-update.sh [target-dir] [--dry-run]" >&2; exit 2; }
+command -v git >/dev/null 2>&1 || { echo "git is required" >&2; exit 1; }
+echo "MM Visual Skills | source: $SOURCE_DIR | target: $TARGET_DIR"
+if [[ "$MODE" == --dry-run ]]; then
+  [[ -d "$SOURCE_DIR/.git" ]] || { echo "Dry-run requires an existing source clone at $SOURCE_DIR; it never downloads files." >&2; exit 2; }
+elif [[ -d "$SOURCE_DIR/.git" ]]; then
   git -C "$SOURCE_DIR" pull --ff-only
-elif [ -e "$SOURCE_DIR" ]; then
-  echo "Source directory exists but is not a Git repository: $SOURCE_DIR" >&2
-  exit 1
+elif [[ -e "$SOURCE_DIR" ]]; then
+  echo "Source exists but is not a Git repository: $SOURCE_DIR" >&2; exit 1
 else
-  echo "Cloning source repository..."
   git clone "$REPO_URL" "$SOURCE_DIR"
 fi
 
-mkdir -p "$TARGET_DIR"
-
-get_skill_name() {
-  local skill_file="$1/SKILL.md"
-  local name
-  name="$(awk '
-    /^name:[[:space:]]*/ {
-      sub(/^name:[[:space:]]*/, "", $0)
-      gsub(/^["'"'"']|["'"'"']$/, "", $0)
-      print $0
-      exit
-    }
-  ' "$skill_file")"
-  if [ -z "$name" ]; then
-    echo "Could not read skill name from: $skill_file" >&2
-    exit 1
-  fi
-  printf "%s" "$name"
-}
-
-installed_count=0
-installed_names=""
-
+names=()
+sources=()
+seen_names=" "
 for skill_dir in "$SOURCE_DIR"/*; do
-  [ -d "$skill_dir" ] || continue
-  [ -f "$skill_dir/SKILL.md" ] || continue
-
-  skill_name="$(get_skill_name "$skill_dir")"
-  destination_path="$TARGET_DIR/$skill_name"
-
-  if [ -e "$destination_path" ]; then
-    echo "Replacing managed Skill: $skill_name"
-    rm -rf "$destination_path"
-  else
-    echo "Installing Skill: $skill_name"
+  [[ -d "$skill_dir" && -f "$skill_dir/SKILL.md" ]] || continue
+  skill_name="$(sed -n 's/^name:[[:space:]]*//p' "$skill_dir/SKILL.md" | head -n 1 | tr -d "\"'[:space:]")"
+  [[ "$skill_name" =~ ^[a-z0-9][a-z0-9-]*$ ]] || { echo "Invalid Skill name in $skill_dir" >&2; exit 1; }
+  [[ "$seen_names" != *" $skill_name "* ]] || { echo "Duplicate Skill name: $skill_name" >&2; exit 1; }
+  seen_names+="$skill_name "
+  dest="$TARGET_DIR/$skill_name"
+  [[ ! -L "$dest" ]] || { echo "CONFLICT: symlink $dest; refusing overwrite." >&2; exit 1; }
+  if [[ -e "$dest" ]]; then
+    if [[ -f "$dest/$MARKER" ]] && grep -Fxq mm-visual-skills "$dest/$MARKER"; then
+      :
+    elif [[ -f "$dest/SKILL.md" ]] && grep -Fq 'source: "https://github.com/menghaoran214-lang/mm-visual-skills"' "$dest/SKILL.md"; then
+      echo "Recognized legacy MM Visual installation: $skill_name"
+    else
+      echo "CONFLICT: $dest is not managed by MM Visual Skills; unchanged." >&2; exit 1
+    fi
   fi
-
-  cp -R "$skill_dir" "$destination_path"
-  installed_count=$((installed_count + 1))
-  installed_names="$installed_names
-$skill_name"
+  names+=("$skill_name")
+  sources+=("$skill_dir")
+  echo "PLAN: $skill_name -> $dest"
 done
-
-if [ "$installed_count" -eq 0 ]; then
-  echo "No installable Skills found in repository root." >&2
-  exit 1
+[[ "${#names[@]}" -gt 0 ]] || { echo "No Skills found." >&2; exit 1; }
+if [[ "$MODE" == --dry-run ]]; then
+  echo "DRY RUN: no source or target files changed."
+  exit 0
 fi
 
-VERSION="unknown"
-if [ -f "$SOURCE_DIR/VERSION" ]; then
-  VERSION="$(tr -d '\r\n' < "$SOURCE_DIR/VERSION")"
+mkdir -p "$TARGET_DIR/.mm-visual-skills-backups"
+backup="$(mktemp -d "$TARGET_DIR/.mm-visual-skills-backups/backup.XXXXXXXX")"
+stage="$(mktemp -d "$TARGET_DIR/.mm-visual-stage.XXXXXXXX")"
+installed=()
+backed_up=()
+success=0
+finish() {
+  if [[ "$success" != 1 ]]; then
+    echo "Install failed; restoring previous managed Skills..." >&2
+    for name in "${installed[@]}"; do rm -rf -- "$TARGET_DIR/$name"; done
+    for name in "${backed_up[@]}"; do mv -- "$backup/$name" "$TARGET_DIR/$name" || true; done
+    if [[ -f "$backup/$VERSION_MARKER" ]]; then
+      cp -- "$backup/$VERSION_MARKER" "$TARGET_DIR/$VERSION_MARKER" || true
+    else
+      rm -f -- "$TARGET_DIR/$VERSION_MARKER"
+    fi
+  fi
+  rm -rf -- "$stage"
+}
+trap finish EXIT
+if [[ -f "$TARGET_DIR/$VERSION_MARKER" ]]; then
+  cp -- "$TARGET_DIR/$VERSION_MARKER" "$backup/$VERSION_MARKER"
 fi
-
-printf "%s" "$VERSION" > "$TARGET_DIR/.mm-visual-skills-version"
-
-echo
-echo "Installed/updated MM Visual Skills v$VERSION"
-echo "Installed Skills:"
-printf "%s\n" "$installed_names" | sed '/^$/d; s#^#  - '"$TARGET_DIR"'/#'
-echo "Version marker:"
-echo "  - $TARGET_DIR/.mm-visual-skills-version"
-echo
-echo "Future root-level directories containing SKILL.md will be installed automatically."
-echo "Restart or reload your AI/Agent Skills if it does not detect changes automatically."
+for i in "${!names[@]}"; do
+  cp -R -- "${sources[$i]}" "$stage/${names[$i]}"
+  printf 'mm-visual-skills\n' > "$stage/${names[$i]}/$MARKER"
+done
+for name in "${names[@]}"; do
+  if [[ -e "$TARGET_DIR/$name" ]]; then
+    mv -- "$TARGET_DIR/$name" "$backup/$name"
+    backed_up+=("$name")
+  fi
+  mv -- "$stage/$name" "$TARGET_DIR/$name"
+  installed+=("$name")
+done
+version="unknown"
+[[ ! -f "$SOURCE_DIR/VERSION" ]] || version="$(tr -d '\r\n' < "$SOURCE_DIR/VERSION")"
+printf '%s' "$version" > "$stage/$VERSION_MARKER"
+mv -- "$stage/$VERSION_MARKER" "$TARGET_DIR/$VERSION_MARKER"
+success=1
+echo "Installed/updated ${#names[@]} Skills (v$version)."
+echo "Previous version backup: $backup"
+echo "To roll back, restore only the backed-up Skill folders and version marker to this target."
+echo "Reload your AI client."
