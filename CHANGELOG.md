@@ -2,6 +2,17 @@
 
 All notable changes to MM Visual Skills are documented here.
 
+## [0.10.4] - 2026-10-15
+
+### Installer reliability, safety, and onboarding
+
+- Fixed the undefined `SOURCE_DIR` variable in the macOS/Linux remote update checker.
+- Added a non-modifying `--dry-run`/`-DryRun`, collision preflight, ownership markers, compatibility with earlier MM Visual installs, staging, automatic restore on installation errors, and persistent backups for manual rollback on shell and PowerShell installers.
+- Added Linux and Windows installer integration tests and a workflow, including safeguards against overwriting unrelated Skills.
+- Reworked README around concrete style selection, actual prerequisites, review-before-run installation, and custom Skills directories.
+- Added direct-routing guidance and quick usage to active style Skills, without changing visual reference requirements or QA gates.
+- Explicitly marked the unrelated Vibe Coding MCP registry as pending migration rather than removing a live publishing workflow.
+
 ## [0.10.3] - 2026-10-08
 
 - Verified Canva original-reference MEDIA import through `upload_asset_from_url` and `generate_image(imageReferences)` generation path.
