@@ -39,7 +39,7 @@ try {
     & $Installer -TargetDir $Target -SourceDir $Source
     Assert ((Get-Content (Join-Path $Target ".mm-visual-skills-version") -Raw).Trim() -eq "0.10.4") "upgrade version"
     $Backed = Get-ChildItem -Path (Join-Path $Target ".mm-visual-skills-backups") -Recurse -Filter "SKILL.md"
-    Assert ([bool]($Backed | Select-String -Pattern "LOCAL_CHANGE" -Quiet)) "previous install backed up"
+    Assert ([bool]($Backed | Where-Object { (Get-Content -LiteralPath $_.FullName -Raw).Contains("LOCAL_CHANGE") })) "previous install backed up"
     Save-Skill (Join-Path $Source "other") "mm-other"
     & git -C $Source add .
     & git -C $Source commit -qm add-other
